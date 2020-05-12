@@ -1,0 +1,32 @@
+version: '3.8'
+services:
+  octoprint:
+    build:
+      context: ./octoprint
+    restart: always
+    devices:
+      - /dev/ttyUSB0
+    ports:
+      - target: 5000
+        published: 5001
+        protocol: tcp
+        mode: host
+    volumes:
+      - octoprint:/home/octoprint
+
+  mjpg-streamer:
+    build:
+      context: ./mjpg-streamer
+    restart: always
+    #environment:
+    #  - ENV_FPS=30
+    devices:
+      - /dev/video0
+    ports:
+      - target: 8080
+        published: 8081
+        protocol: tcp
+        mode: host
+
+volumes:
+  octoprint: {}
